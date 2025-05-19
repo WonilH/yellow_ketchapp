@@ -32,3 +32,14 @@
 *.exe
 *.out
 *.app
+
+# Build directories
+build/
+*/build/
+
+# Python cache
+__pycache__/
+*/__pycache__/
+
+# Virtual environments
+.venv/
