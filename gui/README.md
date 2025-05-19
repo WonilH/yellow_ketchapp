@@ -29,10 +29,10 @@ pip install -r requirements.txt
 ## Generating Code
 
 After installing the dependencies, generate the Python gRPC code from the shared
-`.proto` file:
+`.proto` file by running the command below from the repository root:
 
 ```bash
-python -m grpc_tools.protoc -I ../proto --python_out=proto --grpc_python_out=proto ../proto/helloworld.proto
+python -m grpc_tools.protoc -I ./proto --python_out=./gui --grpc_python_out=./gui ./proto/helloworld.proto
 ```
 
 ## Running the Application
