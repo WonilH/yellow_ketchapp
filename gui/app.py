@@ -1,6 +1,6 @@
 import grpc
-import tkinter as tk
-from tkinter import ttk
+import sys
+from PySide6 import QtWidgets
 
 import proto.helloworld_pb2 as helloworld_pb2
 import proto.helloworld_pb2_grpc as helloworld_pb2_grpc
@@ -12,29 +12,38 @@ def send_request(channel, name):
     return response.message
 
 
-def main():
-    root = tk.Tk()
-    root.title("gRPC Client")
+def main(channel):
+    app = QtWidgets.QApplication(sys.argv)
 
-    frame = ttk.Frame(root, padding="10")
-    frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
+    window = QtWidgets.QWidget()
+    window.setWindowTitle("gRPC Client")
 
-    name_var = tk.StringVar()
-    result_var = tk.StringVar()
+    layout = QtWidgets.QVBoxLayout()
 
-    ttk.Label(frame, text="Name:").grid(row=0, column=0, sticky=tk.W)
-    name_entry = ttk.Entry(frame, textvariable=name_var)
-    name_entry.grid(row=0, column=1, sticky=(tk.W, tk.E))
+    form_layout = QtWidgets.QHBoxLayout()
+    name_label = QtWidgets.QLabel("Name:")
+    name_edit = QtWidgets.QLineEdit()
+    form_layout.addWidget(name_label)
+    form_layout.addWidget(name_edit)
 
-    ttk.Button(frame, text="Send", command=lambda: result_var.set(send_request(channel, name_var.get()))).grid(row=1, column=0, columnspan=2)
-    ttk.Label(frame, textvariable=result_var).grid(row=2, column=0, columnspan=2)
+    send_button = QtWidgets.QPushButton("Send")
+    result_label = QtWidgets.QLabel()
 
-    for child in frame.winfo_children():
-        child.grid_configure(padx=5, pady=5)
+    def on_send():
+        result_label.setText(send_request(channel, name_edit.text()))
 
-    root.mainloop()
+    send_button.clicked.connect(on_send)
+
+    layout.addLayout(form_layout)
+    layout.addWidget(send_button)
+    layout.addWidget(result_label)
+
+    window.setLayout(layout)
+    window.show()
+
+    app.exec()
 
 
 if __name__ == "__main__":
     with grpc.insecure_channel("localhost:50051") as channel:
-        main()
+        main(channel)

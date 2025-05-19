@@ -1,11 +1,12 @@
 # GUI gRPC Client Template
 
-This directory contains a simple GUI application written in Python that communicates with the gRPC server.
+This directory contains a simple GUI application written in Python using the PySide6 toolkit that communicates with the gRPC server.
 
 ## Prerequisites
 
 - Python 3.11 or later
 - `grpcio` and `grpcio-tools` packages
+- `PySide6` for the GUI
 
 ## Generating Code
 
