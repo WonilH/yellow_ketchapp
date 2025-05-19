@@ -8,9 +8,19 @@ This directory contains a simple GUI application written in Python using the PyS
 - `grpcio` and `grpcio-tools` packages
 - `PySide6` for the GUI
 
+## Setup
+
+Install the required Python packages before generating any code so that the
+`grpc_tools` module is available:
+
+```bash
+pip install -r requirements.txt
+```
+
 ## Generating Code
 
-Generate the Python gRPC code from the shared `.proto` file:
+After installing the dependencies, generate the Python gRPC code from the shared
+`.proto` file:
 
 ```bash
 python -m grpc_tools.protoc -I proto --python_out=. --grpc_python_out=. proto/helloworld.proto
@@ -18,9 +28,8 @@ python -m grpc_tools.protoc -I proto --python_out=. --grpc_python_out=. proto/he
 
 ## Running the Application
 
-After generating the code, install the required packages and run the client:
+With the stubs generated and dependencies installed, start the GUI client:
 
 ```bash
-pip install -r requirements.txt
 python app.py
 ```
