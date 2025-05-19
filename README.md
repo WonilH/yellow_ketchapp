@@ -20,8 +20,8 @@ Both components share the top-level `proto/` directory. You can generate the
 language-specific stubs from the repository root with the following commands:
 
 ```bash
-# Go stubs for the server (outputs to `server/proto`)
-protoc -I ./proto --go_out=. --go-grpc_out=. ./proto/helloworld.proto
+# Go stubs for the server
+protoc -I ./proto --go_out=./server --go-grpc_out=./server ./proto/helloworld.proto
 
 # Python stubs for the GUI client
 python -m grpc_tools.protoc -I ./proto --python_out=./gui --grpc_python_out=./gui ./proto/helloworld.proto
