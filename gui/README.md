@@ -10,8 +10,17 @@ This directory contains a simple GUI application written in Python using the PyS
 
 ## Setup
 
-Install the required Python packages before generating any code so that the
-`grpc_tools` module is available:
+Create a Python virtual environment and install the dependencies before
+generating any code so that the `grpc_tools` module is available:
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+```
+
+Then install the pinned package versions listed in `requirements.txt`. Pinning
+`grpcio` and `grpcio-tools` avoids conflicts with packages such as TensorFlow
+that require `protobuf <5`:
 
 ```bash
 pip install -r requirements.txt
