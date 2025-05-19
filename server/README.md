@@ -7,11 +7,8 @@ This directory contains a minimal gRPC server written in Go.
 - Go 1.21 or later
 - Protocol Buffers compiler (`protoc`)
 - `protoc-gen-go` and `protoc-gen-go-grpc` plugins installed
-- Initialize a Go module once in this directory:
-
-  ```bash
-  go mod init server
-  ```
+- This repository already includes a `go.mod` file, so you can skip running
+  `go mod init`.
 
 ## Generating Code
 
