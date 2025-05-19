@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package imagestorage;
+option go_package = "server/proto";
+
+service Greeter {
+  rpc SayHello (HelloRequest) returns (HelloReply) {}
+}
+
+service ImageService {
+  // Returns the list of filenames available in the server's image directory.
+  rpc ListImages (ImageListRequest) returns (ImageListReply) {}
+
+  // Returns the raw bytes of a requested image file.
+  rpc GetImage (ImageRequest) returns (ImageData) {}
+}
+
+message ImageListRequest {}
+
+message ImageListReply {
+  repeated string filenames = 1;
+}
+
+message ImageRequest {
+  string filename = 1;
+}
+
+message ImageData {
+  bytes data = 1;
+}
+
+message HelloRequest {
+  string name = 1;
+}
+
+message HelloReply {
+  string message = 1;
+}

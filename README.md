@@ -1,6 +1,6 @@
 # Yellow Ketchapp
 
-This repository provides templates for a gRPC server written in Go and a simple GUI client written in Python.
+This repository provides templates for a gRPC server written in Go and a simple GUI client written in Python. The server now exposes an `ImageService` API so clients can list and download image files.
 
 - `server/` contains the Go gRPC server template.
 - `gui/` contains the Python GUI client template.
@@ -21,8 +21,8 @@ language-specific stubs from the repository root with the following commands:
 
 ```bash
 # Go stubs for the server
-protoc -I ./proto --go_out=./server --go-grpc_out=./server ./proto/helloworld.proto
+protoc -I ./proto --go_out=./server --go-grpc_out=./server ./proto/imagestorage.proto
 
 # Python stubs for the GUI client
-python -m grpc_tools.protoc -I ./proto --python_out=./gui --grpc_python_out=./gui ./proto/helloworld.proto
+python -m grpc_tools.protoc -I ./proto --python_out=./gui --grpc_python_out=./gui ./proto/imagestorage.proto
 ```
