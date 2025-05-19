@@ -32,7 +32,7 @@ After installing the dependencies, generate the Python gRPC code from the shared
 `.proto` file:
 
 ```bash
-python -m grpc_tools.protoc -I proto --python_out=. --grpc_python_out=. proto/helloworld.proto
+python -m grpc_tools.protoc -I ../proto --python_out=proto --grpc_python_out=proto ../proto/helloworld.proto
 ```
 
 ## Running the Application
