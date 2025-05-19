@@ -10,6 +10,15 @@ This directory contains a minimal gRPC server written in Go.
 - This repository already includes a `go.mod` file, so you can skip running
   `go mod init`.
 
+## Setup
+
+Initialize the Go module and fetch the gRPC package (run these once):
+
+```bash
+go mod init server       # if not already done
+go get google.golang.org/grpc
+```
+
 ## Generating Code
 
 Run the following command from this directory to generate Go code from the `.proto` file:
