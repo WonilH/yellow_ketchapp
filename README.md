@@ -16,13 +16,13 @@ pip install -r gui/requirements.txt
 
 ## Generating gRPC Code
 
-Both components use the shared `proto/` directory. Run the commands below from
-each subdirectory to generate the language-specific stubs:
+Both components share the top-level `proto/` directory. You can generate the
+language-specific stubs from the repository root with the following commands:
 
 ```bash
-# From server/
-protoc -I ../proto --go_out=proto --go-grpc_out=proto ../proto/helloworld.proto
+# Go stubs for the server
+protoc -I ./proto --go_out=./server --go-grpc_out=./server ./proto/helloworld.proto
 
-# From gui/
-python -m grpc_tools.protoc -I ../proto --python_out=proto --grpc_python_out=proto ../proto/helloworld.proto
+# Python stubs for the GUI client
+python -m grpc_tools.protoc -I ./proto --python_out=./gui --grpc_python_out=./gui ./proto/helloworld.proto
 ```
