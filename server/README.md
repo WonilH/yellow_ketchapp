@@ -21,10 +21,11 @@ go get google.golang.org/grpc
 
 ## Generating Code
 
-Run the following command from this directory to generate Go code from the `.proto` file:
+Run the following command from this directory to generate Go code from the shared
+`.proto` file:
 
 ```bash
-protoc --go_out=. --go-grpc_out=. proto/helloworld.proto
+protoc -I ../proto --go_out=proto --go-grpc_out=proto ../proto/helloworld.proto
 ```
 
 ## Running the Server
