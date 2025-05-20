@@ -12,6 +12,7 @@
 #include <QtGrpc/QGrpcCallOptions>
 #include <QtGrpc/QGrpcChannelOptions>
 #include <QtGrpc/QGrpcHttp2Channel>
+#include <QtGrpc/QGrpcCallReply>
 
 #include "imagestorage.qpb.h"
 #include "imagestorage_client.grpc.qpb.h"
@@ -22,7 +23,9 @@ int main(int argc, char *argv[])
     std::unique_ptr<imagestorage::Greeter::Client> greeter = std::make_unique<imagestorage::Greeter::Client>();
     std::unique_ptr<imagestorage::ImageService::Client> imageClient = std::make_unique<imagestorage::ImageService::Client>();
 
-    greeter->attachChannel(std::make_shared<QGrpcHttp2Channel>(QUrl("grpc://localhost:50051")));
+    auto channel = std::make_shared<QGrpcHttp2Channel>(QUrl("grpc://localhost:50051"));
+    greeter->attachChannel(channel);
+    imageClient->attachChannel(channel);
 
 
     QWidget window;
@@ -46,31 +49,50 @@ int main(int argc, char *argv[])
         imagestorage::HelloRequest req;
         req.setName(nameEdit->text());
         auto reply = greeter->SayHello(req);
-        // resultLabel->setText(QString::fromStdString(reply.message()));
+        auto *replyPtr = reply.release();
+        QObject::connect(replyPtr, &QGrpcCallReply::finished, &window, [replyPtr, resultLabel]() {
+            imagestorage::HelloReply resp;
+            replyPtr->read(&resp);
+            resultLabel->setText(QString::fromStdString(resp.message()));
+            replyPtr->deleteLater();
+        });
     });
 
     QObject::connect(loadButton, &QPushButton::clicked, [&]() {
         imagestorage::ImageListRequest req;
         auto reply = imageClient->ListImages(req);
-        imageList->clear();
-        // for (const auto &name : reply.filenames())
-        //     imageList->addItem(QString::fromStdString(name));
+        auto *replyPtr = reply.release();
+        QObject::connect(replyPtr, &QGrpcCallReply::finished, imageList, [replyPtr, imageList]() {
+            imagestorage::ImageListReply resp;
+            replyPtr->read(&resp);
+            imageList->clear();
+            for (const auto &name : resp.filenames())
+                imageList->addItem(QString::fromStdString(name));
+            replyPtr->deleteLater();
+        });
     });
 
     QObject::connect(downloadButton, &QPushButton::clicked, [&]() {
         auto item = imageList->currentItem();
         if (!item)
             return;
+        const QString filename = item->text();
         imagestorage::ImageRequest req;
-        req.setFilename(item->text());
+        req.setFilename(filename);
         auto reply = imageClient->GetImage(req);
-        QDir().mkpath("downloads");
-        QFile file("downloads/" + item->text());
-        if (file.open(QIODevice::WriteOnly)) {
-            // file.write(QByteArray::fromStdString(reply.data()));
-            file.close();
-            QMessageBox::information(&window, "Downloaded", "Saved to " + file.fileName());
-        }
+        auto *replyPtr = reply.release();
+        QObject::connect(replyPtr, &QGrpcCallReply::finished, &window, [replyPtr, filename, &window]() {
+            imagestorage::ImageData resp;
+            replyPtr->read(&resp);
+            QDir().mkpath("downloads");
+            QFile file("downloads/" + filename);
+            if (file.open(QIODevice::WriteOnly)) {
+                file.write(QByteArray::fromStdString(resp.data()));
+                file.close();
+                QMessageBox::information(&window, "Downloaded", "Saved to " + file.fileName());
+            }
+            replyPtr->deleteLater();
+        });
     });
 
     layout->addLayout(form);
