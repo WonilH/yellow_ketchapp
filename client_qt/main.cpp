@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
     std::unique_ptr<imagestorage::Greeter::Client> greeter = std::make_unique<imagestorage::Greeter::Client>();
     std::unique_ptr<imagestorage::ImageService::Client> imageClient = std::make_unique<imagestorage::ImageService::Client>();
 
-    auto channel = std::make_shared<QGrpcHttp2Channel>(QUrl("grpc://localhost:50051"));
+    auto channel = std::make_shared<QGrpcHttp2Channel>(QUrl("http://localhost:50051"));
     greeter->attachChannel(channel);
     imageClient->attachChannel(channel);
 
@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
         QObject::connect(replyPtr, &QGrpcCallReply::finished, &window, [replyPtr, resultLabel]() {
             imagestorage::HelloReply resp;
             replyPtr->read(&resp);
-            resultLabel->setText(QString::fromStdString(resp.message()));
+            resultLabel->setText(resp.message());
             replyPtr->deleteLater();
         });
     });
@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
             replyPtr->read(&resp);
             imageList->clear();
             for (const auto &name : resp.filenames())
-                imageList->addItem(QString::fromStdString(name));
+                imageList->addItem(name);
             replyPtr->deleteLater();
         });
     });
@@ -87,7 +87,7 @@ int main(int argc, char *argv[])
             QDir().mkpath("downloads");
             QFile file("downloads/" + filename);
             if (file.open(QIODevice::WriteOnly)) {
-                file.write(QByteArray::fromStdString(resp.data()));
+                file.write(resp.data());
                 file.close();
                 QMessageBox::information(&window, "Downloaded", "Saved to " + file.fileName());
             }
