@@ -8,13 +8,6 @@ python -m grpc_tools.protoc \
   --grpc_python_out=./client_pyside/proto \
   ./proto/imagestorage.proto
 
-# Qt C++ 코드 생성
-protoc \
-  -I=./proto \
-  --qt_out=./client_qt \
-  --qt-grpc_out=./client_qt \
-  ./proto/imagestorage.proto
-
 # Go 코드 생성
 protoc \
   -I=./proto \
