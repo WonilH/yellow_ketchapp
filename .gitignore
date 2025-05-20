@@ -19,6 +19,8 @@
 # Fortran module files
 *.mod
 *.smod
+!go.mod
+!*/go.mod
 
 # Compiled Static libraries
 *.lai
@@ -30,3 +32,24 @@
 *.exe
 *.out
 *.app
+
+# Build directories
+build/
+*/build/
+
+# Python cache
+__pycache__/
+*/__pycache__/
+
+# Virtual environments
+.venv/
+
+# Generated protobuf files
+client_pyside/proto/imagestorage_pb2.py
+client_pyside/proto/imagestorage_pb2_grpc.py
+server/proto/imagestorage.pb.go
+server/proto/imagestorage_grpc.pb.go
+
+# IDE/Project temporary files
+*.user
+*.qmlls.ini
