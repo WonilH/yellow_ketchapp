@@ -52,3 +52,4 @@ server/proto/imagestorage_grpc.pb.go
 
 # IDE/Project temporary files
 *.user
+*.qmlls.ini

@@ -22,4 +22,4 @@ cmake ..
 cmake --build .
 ```
 
-The generated executable `client_qt` can then be run to connect to a running server.
+The generated executable `client_qtwidget` can then be run to connect to a running server.
