@@ -97,7 +97,6 @@ Window {
             width: parent.width * 0.7
             height: 120
             model: imagesModel
-            model: imagesModel
             delegate: Item {
                 width: parent.width
                 height: TextMetrics.height + 4 // Add some padding
