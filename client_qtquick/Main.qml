@@ -7,8 +7,8 @@ import ClientQtQuick.Proto
 
 
 Window {
-    width: 400
-    height: 300
+    width: 500
+    height: 500
     visible: true
     title: "QtProtobuf QML Client"
 
@@ -38,6 +38,10 @@ Window {
 
     ListModel {
         id: imagesModel
+    }
+
+    ListModel {
+        id: downloadedModel
     }
 
     // Q_INVOKABLE void SayHello(const imagestorage::HelloRequest &arg, const QJSValue &callback, const QJSValue &errorCallback, const QtGrpcQuickPrivate::QQmlGrpcCallOptions *options = nullptr);
@@ -110,9 +114,40 @@ Window {
                 imageReq.filename = imagesModel.get(imageList.currentIndex).name
                 imageClient.GetImage(imageReq, function(resp: imageData) {
                     var path = "downloads/" + imageReq.filename
-                    if (fileWriter.save(path, resp.data))
+                    if (fileWriter.save(path, resp.data)) {
                         console.log("Saved to " + path)
+                        downloadedModel.append({ name: imageReq.filename, path: path })
+                    }
                 }, errorCallback, grpcCallOptions)
+            }
+        }
+
+        ListView {
+            id: downloadedList
+            width: parent.width * 0.7
+            height: 80
+            model: downloadedModel
+            delegate: Text {
+                text: name
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: imageSwipe.currentIndex = index
+                }
+            }
+        }
+
+        SwipeView {
+            id: imageSwipe
+            width: parent.width * 0.7
+            height: 150
+            Repeater {
+                model: downloadedModel
+                Image {
+                    source: "file:" + path
+                    fillMode: Image.PreserveAspectFit
+                    width: parent.width
+                    height: parent.height
+                }
             }
         }
     }
