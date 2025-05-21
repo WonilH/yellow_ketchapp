@@ -97,9 +97,70 @@ Window {
             width: parent.width * 0.7
             height: 120
             model: imagesModel
-            delegate: Text {
-                text: name
+            model: imagesModel
+            delegate: Item {
+                width: parent.width
+                height: TextMetrics.height + 4 // Add some padding
+                TextMetrics {
+                    id: TextMetrics
+                    text: name
+                    elide: Text.ElideRight
+                    width: parent.width
+                }
+                Text {
+                    text: name
+                    anchors.verticalCenter: parent.verticalCenter
+                    elide: Text.ElideRight
+                    width: parent.width
+                }
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        // Update SwipeView's current index when an item is clicked
+                        photoSwipeView.currentIndex = index
+                    }
+                }
             }
+            // REMOVED: onCurrentIndexChanged: photoSwipeView.currentIndex = currentIndex
+        }
+
+        SwipeView {
+            id: photoSwipeView
+            width: parent.width * 0.7
+            height: 200 // Or any appropriate height
+            model: imagesModel
+            clip: true // Clip items to view bounds
+
+            delegate: Item { // Changed from Image to Item
+                width: photoSwipeView.width
+                height: photoSwipeView.height
+
+                Image {
+                    id: imageItem // Added id to reference status
+                    anchors.fill: parent
+                    source: "file:///downloads/" + name
+                    fillMode: Image.PreserveAspectFit
+
+                    background: Rectangle {
+                        color: "lightgray"
+                        // Visible when image is loading, error, or null
+                        visible: imageItem.status !== Image.Ready 
+                    }
+                }
+
+                Text {
+                    anchors.centerIn: parent
+                    width: parent.width * 0.8 // Constrain width for better wrapping
+                    text: "Image not downloaded. Please select from list and click 'Download Selected'."
+                    wrapMode: Text.WordWrap
+                    horizontalAlignment: Text.AlignHCenter
+                    color: "black" // Ensure visibility against lightgray background
+                    // Visible only when the image has an error (e.g., not found)
+                    visible: imageItem.status === Image.Error 
+                }
+            }
+            // Synchronize ListView's current index when SwipeView's current index changes
+            onCurrentIndexChanged: imageList.currentIndex = currentIndex
         }
 
         Button {
