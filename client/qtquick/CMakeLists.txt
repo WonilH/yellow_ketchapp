@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 project(client_qtquick LANGUAGES CXX)
 
-find_package(Qt6 REQUIRED COMPONENTS Quick Grpc Protobuf GrpcQuick ProtobufQuick)
+find_package(Qt6 REQUIRED COMPONENTS Quick Protobuf ProtobufQuick Grpc GrpcQuick)
 
 qt_standard_project_setup()
 
@@ -26,7 +26,7 @@ qt_add_protobuf(client_qtquick_proto
 
 qt_add_grpc(client_qtquick_proto CLIENT
     QML
-    "QtProtobuf/QtGrpc QML Client"
+    QML_URI ClientQtQuick.Proto
     PROTO_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/../../proto/helloworld.proto
 )

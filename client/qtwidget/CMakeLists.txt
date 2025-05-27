@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 project(client_qtwidget LANGUAGES CXX)
 
-find_package(Qt6 REQUIRED COMPONENTS Widgets Grpc Protobuf)
+find_package(Qt6 REQUIRED COMPONENTS Widgets Protobuf Grpc)
 
 qt_standard_project_setup()
 
@@ -23,7 +23,7 @@ qt_add_grpc(client_qtwidget_proto CLIENT
 
 target_link_libraries(client_qtwidget PRIVATE
     Qt6::Widgets
-    Qt6::Grpc
     Qt6::Protobuf
+    Qt6::Grpc
     client_qtwidget_proto
 )

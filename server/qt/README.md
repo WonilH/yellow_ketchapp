@@ -14,17 +14,6 @@ future versions when full server support becomes available.
 - `protoc` with the Qt plugins (`protoc-gen-qt` and `protoc-gen-qtgrpc`)
 - CMake 3.16 or newer
 
-## Generating Code
-
-Generate the Qt sources from the repository root.
-Only client code generation is currently supported, so this step
-is provided for completeness when server code generation becomes
-available:
-
-```bash
-protoc -I ./proto --qt_out=./server/qt --qt-grpc_out=./server/qt ./proto/helloworld.proto
-```
-
 ## Building
 
 ```bash
