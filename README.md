@@ -1,9 +1,13 @@
 # Yellow Ketchapp
 
-This repository provides templates for gRPC servers written in Go and C++ as well as a simple client written in various GUI frameworks. The servers only implement a `Greeter` service.
+This repository provides templates for gRPC servers written in Go, C++, and Qt as well as a simple client written in various GUI frameworks. The servers only implement a `Greeter` service.
 
 - `server/go/` contains the Go gRPC server template.
 - `server/cpp/` contains a C++ gRPC server example.
+- `server/qt/` contains a Qt based gRPC server using QtProtobuf.
+  Note that as of Qt 6.9 only client code generation is officially
+  supported, so the server example is for reference until full support
+  lands.
 - `client/pyside/` contains the Python GUI client template built with PySide6.
 - `client/qtwidget/` contains a Qt gRPC client implemented in C++ using QtProtobuf.
 - `client/qtquick/` contains a Qt Quick client implemented in QML using QtProtobuf.
@@ -19,8 +23,9 @@ generating the gRPC stubs:
 
 ## Generating gRPC Code
 
-Both components share the top-level `proto/` directory. You can generate the
-language-specific stubs from the repository root with the following commands:
+Both components share the top-level `proto/` directory. Only **client** code
+generation is officially supported in Qt 6.9. The commands below demonstrate
+how to generate the available stubs:
 
 ```bash
 # Go stubs for the Go server
@@ -32,6 +37,11 @@ python -m grpc_tools.protoc -I ./proto --python_out=./client/pyside --grpc_pytho
 # Qt C++ stubs for the Qt client
 protoc -I ./proto --qt_out=./client/qtwidget --qt-grpc_out=./client/qtwidget ./proto/helloworld.proto
 protoc -I ./proto --qt_out=./client/qtquick --qt-grpc_out=./client/qtquick ./proto/helloworld.proto
+
+# Qt C++ stubs for the Qt server
+# Server side generation is not yet officially supported in Qt 6.9.
+# The following command is kept for reference when full support arrives.
+protoc -I ./proto --qt_out=./server/qt --qt-grpc_out=./server/qt ./proto/helloworld.proto
 
 # C++ stubs for the C++ server
 protoc -I ./proto --cpp_out=./server/cpp --grpc_out=./server/cpp ./proto/helloworld.proto
