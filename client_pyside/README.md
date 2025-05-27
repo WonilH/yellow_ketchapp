@@ -1,8 +1,7 @@
 # PySide gRPC Client Template
 
 This directory contains a simple GUI application written in Python using the PySide6 toolkit that communicates with the gRPC server.
-In addition to sending a greeting, the client can now list images available on the server and download the selected file.
-
+This example simply sends a greeting using the `Greeter` service.
 ## Prerequisites
 
 - Python 3.11 or later

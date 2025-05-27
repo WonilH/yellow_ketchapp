@@ -1,10 +1,6 @@
 # Qt gRPC Client using QtProtobuf
 
-This directory contains a minimal Qt Widgets application written in C++ that communicates with the gRPC server using Qt's gRPC and QtProtobuf modules. The application mirrors the features of the Python client:
-
-- Send a greeting using the `Greeter` service
-- List images available on the server
-- Download the selected image
+This directory contains a minimal Qt Widgets application written in C++ that communicates with the gRPC server using Qt's gRPC and QtProtobuf modules. The example simply sends a greeting using the `Greeter` service.
 
 ## Prerequisites
 

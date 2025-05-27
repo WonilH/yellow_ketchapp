@@ -1,9 +1,7 @@
 # Go gRPC Server Template
 
-This directory contains a minimal gRPC server written in Go.
-In addition to the example `Greeter` service, the server exposes an
-`ImageService` that allows clients to list and download image files stored
-under `server/images/`.
+This directory contains a minimal gRPC server written in Go that implements a
+single `Greeter` service.
 
 ## Prerequisites
 
@@ -39,7 +37,5 @@ After generating the code, build and run the server:
 go run .
 ```
 
-The server listens on `:50051` by default and implements a simple `Greeter` service.
-It also serves the `ImageService` API. Place any image files you want to expose
-in the `images/` directory. Clients can query the available filenames using the
-`ListImages` RPC and download a specific file with `GetImage`.
+The server listens on `:50051` by default and implements a simple `Greeter`
+service.
