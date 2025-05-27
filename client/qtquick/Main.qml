@@ -6,10 +6,10 @@ import ClientQtQuick.Proto
 
 
 Window {
-    width: 400
-    height: 300
+    width: 300
+    height: 200
     visible: true
-    title: "QtProtobuf QML Client"
+    title: "Qt Quick Client"
 
     GrpcHttp2Channel {
         id: grpcChannel
@@ -26,7 +26,7 @@ Window {
         channel: grpcChannel.channel
     }
 
-    property helloRequest req // QML_VALUE_TYPE
+    property helloRequest req  // QML_VALUE_TYPE
 
     function finishCallback(response: helloReply): void {
         greetingLabel.text = response.message
@@ -63,3 +63,4 @@ Window {
         }
     }
 }
+

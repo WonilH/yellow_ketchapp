@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
 
 
     QWidget window;
-    window.setWindowTitle("gRPC Client");
+    window.setWindowTitle("Qt Widgets Client");
     QVBoxLayout *layout = new QVBoxLayout(&window);
 
     QHBoxLayout *form = new QHBoxLayout();
