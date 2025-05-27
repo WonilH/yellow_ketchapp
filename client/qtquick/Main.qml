@@ -26,6 +26,8 @@ Window {
         channel: grpcChannel.channel
     }
 
+    property helloRequest req // QML_VALUE_TYPE
+
     function finishCallback(response: helloReply): void {
         greetingLabel.text = response.message
     }
@@ -48,8 +50,6 @@ Window {
 
         Button {
             text: "Send"
-
-            property helloRequest req
 
             onClicked: {
                 req.name = nameField.text

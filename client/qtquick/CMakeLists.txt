@@ -32,8 +32,8 @@ qt_add_grpc(client_qtquick_proto CLIENT
 )
 
 target_link_libraries(client_qtquick_proto PRIVATE
-    Qt6::Protobuf
     Qt6::Grpc
+    Qt6::Protobuf
 )
 
 target_link_libraries(client_qtquick PRIVATE

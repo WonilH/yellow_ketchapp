@@ -19,4 +19,5 @@ protoc \
 protoc \
   -I=./proto \
   --cpp_out=./server/cpp \
+  --grpc_out=./server/cpp \
   ./proto/helloworld.proto
