@@ -26,14 +26,14 @@ qt_add_protobuf(client_qtquick_proto
 
 qt_add_grpc(client_qtquick_proto CLIENT
     QML
-    QML_URI ClientQtQuick.Proto
+    "QtProtobuf/QtGrpc QML Client"
     PROTO_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/../../proto/helloworld.proto
 )
 
 target_link_libraries(client_qtquick_proto PRIVATE
-    Qt6::Grpc
     Qt6::Protobuf
+    Qt6::Grpc
 )
 
 target_link_libraries(client_qtquick PRIVATE
