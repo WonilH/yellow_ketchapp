@@ -26,8 +26,6 @@ Window {
         channel: grpcChannel.channel
     }
 
-    property helloRequest req
-
     function finishCallback(response: helloReply): void {
         greetingLabel.text = response.message
     }
@@ -37,7 +35,6 @@ Window {
             `Error callback executed. Error message: "${error.message}" Code: ${error.code}`
         );
     }
-
 
     Column {
         anchors.centerIn: parent
@@ -51,6 +48,9 @@ Window {
 
         Button {
             text: "Send"
+
+            property helloRequest req
+
             onClicked: {
                 req.name = nameField.text
                 greeter.SayHello(req, finishCallback, errorCallback, grpcCallOptions);
