@@ -45,10 +45,10 @@ __pycache__/
 .venv/
 
 # Generated protobuf files
-client_pyside/proto/imagestorage_pb2.py
-client_pyside/proto/imagestorage_pb2_grpc.py
-server/proto/imagestorage.pb.go
-server/proto/imagestorage_grpc.pb.go
+*_pb2.py
+*_pb2_grpc.py
+*.pb.go
+*_grpc.pb.go
 
 # IDE/Project temporary files
 *.user

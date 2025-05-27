@@ -13,14 +13,14 @@ add_library(client_qtwidget_proto STATIC)
 
 qt_add_protobuf(client_qtwidget_proto
     PROTO_FILES
-        ${CMAKE_CURRENT_SOURCE_DIR}/../proto/imagestorage.proto
+        ${CMAKE_CURRENT_SOURCE_DIR}/../proto/helloworld.proto
     PROTO_INCLUDES
         $<TARGET_PROPERTY:Qt6::ProtobufQtCoreTypes,QT_PROTO_INCLUDES>
 )
 
 qt_add_grpc(client_qtwidget_proto CLIENT
     PROTO_FILES
-        ${CMAKE_CURRENT_SOURCE_DIR}/../proto/imagestorage.proto
+        ${CMAKE_CURRENT_SOURCE_DIR}/../proto/helloworld.proto
     PROTO_INCLUDES
         $<TARGET_PROPERTY:Qt6::ProtobufQtCoreTypes,QT_PROTO_INCLUDES>
 )

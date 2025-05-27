@@ -28,13 +28,8 @@ Window {
 
     property helloRequest req
 
-    // Q_INVOKABLE void SayHello(const imagestorage::HelloRequest &arg, const QJSValue &callback, const QJSValue &errorCallback, const QtGrpcQuickPrivate::QQmlGrpcCallOptions *options = nullptr);
-    // Q_INVOKABLE void ListImages(const imagestorage::ImageListRequest &arg, const QJSValue &callback, const QJSValue &errorCallback, const QtGrpcQuickPrivate::QQmlGrpcCallOptions *options = nullptr);
-    // Q_INVOKABLE void GetImage(const imagestorage::ImageRequest &arg, const QJSValue &callback, const QJSValue &errorCallback, const QtGrpcQuickPrivate::QQmlGrpcCallOptions *options = nullptr);
-
-
     function finishCallback(response: helloReply): void {
-        console.log(response.message)
+        greetingLabel.text = response.message
     }
 
     function errorCallback(error): void {

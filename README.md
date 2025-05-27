@@ -1,6 +1,6 @@
 # Yellow Ketchapp
 
-This repository provides templates for a gRPC server written in Go and a simple GUI client written in Python. The server now exposes an `ImageService` API so clients can list and download image files.
+This repository provides templates for a gRPC server written in Go and a simple GUI client written in Python. The server only implements a `Greeter` service.
 
 - `server/` contains the Go gRPC server template.
 - `client_pyside/` contains the Python GUI client template built with PySide6.
@@ -23,14 +23,14 @@ language-specific stubs from the repository root with the following commands:
 
 ```bash
 # Go stubs for the server
-protoc -I ./proto --go_out=./server --go-grpc_out=./server ./proto/imagestorage.proto
+protoc -I ./proto --go_out=./server --go-grpc_out=./server ./proto/helloworld.proto
 
 # Python stubs for the PySide client
-python -m grpc_tools.protoc -I ./proto --python_out=./client_pyside --grpc_python_out=./client_pyside ./proto/imagestorage.proto
+python -m grpc_tools.protoc -I ./proto --python_out=./client_pyside --grpc_python_out=./client_pyside ./proto/helloworld.proto
 
 # Qt C++ stubs for the Qt client
-protoc -I ./proto --qt_out=./client_qtwidget --qt-grpc_out=./client_qtwidget ./proto/imagestorage.proto
-protoc -I ./proto --qt_out=./client_qtquick --qt-grpc_out=./client_qtquick ./proto/imagestorage.proto
+protoc -I ./proto --qt_out=./client_qtwidget --qt-grpc_out=./client_qtwidget ./proto/helloworld.proto
+protoc -I ./proto --qt_out=./client_qtquick --qt-grpc_out=./client_qtquick ./proto/helloworld.proto
 ```
 
 The Qt client is built using CMake. See `client_qtwidget/README.md` for details on configuring a Qt environment and compiling the application.
