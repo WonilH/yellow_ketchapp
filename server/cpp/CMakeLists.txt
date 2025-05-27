@@ -5,16 +5,24 @@ project(grpc_server_cpp LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Find gRPC and Protobuf using pkg-config
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(GRPC REQUIRED grpc++)
-pkg_check_modules(PROTOBUF REQUIRED protobuf)
+# gRPC and Protobuf
+find_package(gRPC CONFIG QUIET)
+if(NOT gRPC_FOUND)
+    message(STATUS "gRPC not found. Fetching v1.56.0...")
+    include(FetchContent)
+    FetchContent_Declare(
+        grpc
+        GIT_REPOSITORY https://github.com/grpc/grpc.git
+        GIT_TAG v1.56.0
+    )
+    set(FETCHCONTENT_QUIET OFF)
+    FetchContent_MakeAvailable(grpc)
+    # After fetching, gRPC provides Protobuf as a dependency
+    find_package(gRPC CONFIG REQUIRED)
+endif()
 
-# protoc and grpc_cpp_plugin must be accessible via system PATH or pkgconfig
-# (Usually available if installed via package managers like apt, yum, etc.)
-
-# Load CMake's built-in FindProtobuf module (for protobuf_generate_cpp)
-find_package(Protobuf REQUIRED)
+find_package(Protobuf CONFIG REQUIRED)
+get_target_property(GRPC_CPP_PLUGIN_EXECUTABLE gRPC::grpc_cpp_plugin LOCATION)
 
 # Set .proto file path
 set(PROTO_SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../proto")
@@ -39,7 +47,7 @@ add_custom_command(
     COMMAND ${Protobuf_PROTOC_EXECUTABLE}
     ARGS
         --grpc_out="${CMAKE_CURRENT_BINARY_DIR}"
-        --plugin=protoc-gen-grpc="${GRPC_PREFIX}/bin/grpc_cpp_plugin"
+        --plugin=protoc-gen-grpc="${GRPC_CPP_PLUGIN_EXECUTABLE}"
         -I "${PROTO_SRC_DIR}"
         "${PROTO_FILE}"
     DEPENDS "${PROTO_FILE}"
@@ -56,19 +64,11 @@ add_library(helloworld_proto
 target_include_directories(helloworld_proto
     PUBLIC
         ${CMAKE_CURRENT_BINARY_DIR}    # Path where .pb.h, .grpc.pb.h are generated
-        ${PROTOBUF_INCLUDE_DIRS}
-        ${GRPC_INCLUDE_DIRS}
-)
-# Link gRPC, Protobuf libraries
-target_link_directories(helloworld_proto
-    PUBLIC
-        ${PROTOBUF_LIBRARY_DIRS}
-        ${GRPC_LIBRARY_DIRS}
 )
 target_link_libraries(helloworld_proto
     PUBLIC
-        ${PROTOBUF_LIBRARIES}
-        ${GRPC_LIBRARIES}
+        protobuf::libprotobuf
+        gRPC::grpc++
 )
 
 # 4) Create server executable
