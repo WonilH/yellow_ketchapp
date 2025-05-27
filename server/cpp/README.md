@@ -6,6 +6,8 @@ The server provides the same `Greeter` service defined in `proto/helloworld.prot
 ## Prerequisites
 
 - gRPC and Protocol Buffers libraries
+  - CMake expects the targets `gRPC::grpc++` and `protobuf::libprotobuf`
+    to be available on your system
 - CMake 3.16 or newer
 
 ## Generating Code
