@@ -6,9 +6,39 @@ The server provides the same `Greeter` service defined in `proto/helloworld.prot
 ## Prerequisites
 
 - gRPC and Protocol Buffers libraries
-  - CMake expects the targets `gRPC::grpc++` and `protobuf::libprotobuf`
-    to be available on your system
+  - The CMake build will automatically download gRPC **v1.56.0** if the
+    `gRPC::grpc++` target is not found. This requires network access during the
+    first configure.
+  - You can also install gRPC manually as described below.
 - CMake 3.16 or newer
+
+### Building gRPC from Source
+
+The following steps install gRPC **v1.56.0** along with the Protocol Buffers
+compiler. Once installed, `grpc_cpp_plugin` should be available in your
+`PATH`.
+
+```bash
+sudo apt-get update
+sudo apt-get install -y git build-essential autoconf libtool pkg-config cmake
+sudo apt-get install -y protobuf-compiler libprotobuf-dev
+
+git clone --recurse-submodules -b v1.56.0 https://github.com/grpc/grpc.git
+cd grpc
+git submodule update --init --recursive
+
+mkdir -p cmake/build
+cd cmake/build
+cmake -DgRPC_INSTALL=ON -DgRPC_BUILD_TESTS=OFF ../..
+make -j
+sudo make install
+```
+
+You can verify the installation with:
+
+```bash
+which grpc_cpp_plugin
+```
 
 ## Generating Code
 
